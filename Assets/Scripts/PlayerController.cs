@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (hit.gameObject.CompareTag("MortalDanger"))
         {
-            gm.LifeDecrease();
+            gm.DealDamage(100);
         }
     }
 

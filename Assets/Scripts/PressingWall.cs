@@ -59,7 +59,7 @@ public class PressingWall : MonoBehaviour
                 if (isPlayer)
                 {
                     collidedGameObject.transform.parent = null;
-                    GameManager.GetInstance().LifeDecrease();
+                    GameManager.GetInstance().DealDamage(100);
                 }
             }
             else
@@ -81,7 +81,7 @@ public class PressingWall : MonoBehaviour
         GameObject collidedGameObject = collision.gameObject;
         if ((collision.collider.bounds.min.y > boxCollider.bounds.max.y) && collidedGameObject.CompareTag("Player"))
         {
-            GameManager.GetInstance().LifeDecrease();
+            GameManager.GetInstance().DealDamage(100);
         }
     }
 

@@ -35,8 +35,9 @@ public class FallingStalagmite : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !fell)
         {
-            GameManager.GetInstance().LifeDecrease();
-        } else
+            GameManager.GetInstance().DealDamage(25);
+        } 
+        else if (!fell)
         {
             fell = true;
         }

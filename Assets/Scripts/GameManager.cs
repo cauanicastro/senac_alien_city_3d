@@ -8,13 +8,16 @@ using static System.Math;
 [System.Serializable]
 public class GameManager
 {
+    [Header("HUD")]
+    public HudController hudController;
+
     [Header("Player props")]
     public GameObject player;
     public PlayerController playerController;
     public Transform playerPos; 
     public float playerHealth = 100;
     public float playerMaxHealth = 100;
-    public float playerLives = 5;
+    public float playerLives = 3;
     public float playerGems = 0;
     public List<KeyScOb> playerKeys = new List<KeyScOb>();
 
@@ -23,7 +26,7 @@ public class GameManager
 
     private static GameManager instance;
 
-    private GameManager() { }
+    private GameManager() {}
 
     public static GameManager GetInstance()
     {
@@ -36,7 +39,7 @@ public class GameManager
 
     public void KeyFind(KeyScOb key)
     {
-        playerKeys.Add(key);
+        playerKeys.Add(hudController.AddKey(key));
         KeyCheck();
     }
 
@@ -49,9 +52,15 @@ public class GameManager
         }
     }
 
+    public float UpdateHealthbar(float value)
+    {
+        hudController.UpdateHealthBar(value);
+        return value;
+    }
+
     public void DealDamage(float amount)
     {
-        playerHealth = Max(playerHealth - amount, 0);
+        playerHealth = UpdateHealthbar(Max(playerHealth - amount, 0));
         if (playerHealth == 0)
         {
             LifeDecrease();
@@ -60,7 +69,7 @@ public class GameManager
 
     public void DealRecover(float amount)
     {
-        playerHealth = Min(playerHealth + amount, playerMaxHealth);
+        playerHealth = UpdateHealthbar(Min(playerHealth + amount, playerMaxHealth));
     }
 
     public void LifeIncrease()
@@ -68,7 +77,7 @@ public class GameManager
         ++playerLives;
     }
 
-    public void LifeDecrease()
+    private void LifeDecrease()
     {
         --playerLives;
         //TODO: check if lives are under 0
@@ -81,7 +90,8 @@ public class GameManager
         player.GetComponent<Animator>().SetTrigger("Morre");
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
+        hudController.RemoveLife();
+
         playerHealth = playerMaxHealth;
         playerGems = 0;
         playerKeys = new List<KeyScOb>();

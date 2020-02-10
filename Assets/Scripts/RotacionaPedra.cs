@@ -10,8 +10,9 @@ public class RotacionaPedra : MonoBehaviour {
 	void OnTriggerEnter(Collider other) 
 	{
 		if (other.gameObject.CompareTag("Player")||(other.gameObject.CompareTag("tiro")))
-			{
-			Destroy(gameObject);
-			}
+		{
+            GameManager.GetInstance().playerGems++;
+            Destroy(gameObject);
+		}
 	}
 }
