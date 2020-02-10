@@ -7,6 +7,6 @@ public class KeyScOb : ScriptableObject
 {
     public string id;
     public GameObject objReference;
-    public Animator model;
+    public GameObject objImage;
     public string colour;
 }
